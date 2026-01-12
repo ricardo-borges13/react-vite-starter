@@ -1,13 +1,12 @@
-
+import { GlobalStyle } from './assets/style/global';
 
 function App() {
-
-
   return (
     <>
-      <h1>ola mundo</h1>
+      <GlobalStyle />
+      <p>ola mundo</p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
