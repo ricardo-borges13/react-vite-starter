@@ -1,73 +1,94 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Nome do Projeto
+Arquivo limpo para iniciar um novo projeto.
+Foi criado as pastas mais importantes e já definido um layout no componente e rotas.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias
+- React 18
+- TypeScript
+- Vite
+- React Router DOM
+- Styled-components
+- Bootstrap
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎨 Estilos Globais
 
-## React Compiler
+### Pasta `styles` — arquivo `global.ts`
+Utiliza a biblioteca **normalize.css** para padronizar o comportamento dos estilos entre navegadores.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+O `GlobalStyle` define:
+- Reset e normalização de CSS
+- Fonte padrão do projeto
+- Cores base
+- Configurações globais de layout
 
-## Expanding the ESLint configuration
+Esse arquivo é carregado uma única vez na aplicação.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧭 Rotas (`router`)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+A pasta `router` é responsável por **centralizar a configuração de rotas da aplicação**, utilizando o React Router (`createBrowserRouter`).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Funcionamento
+- Define as rotas públicas do site institucional
+- Utiliza um componente de `Layout` para páginas que compartilham estrutura visual comum
+- As páginas são renderizadas dentro do `<Outlet />` definido no Layout
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Arquivo `AppRoutes.tsx`
+- Responsável por mapear os caminhos (`path`) para seus respectivos componentes de página
+- Permite organizar rotas com e sem layout
+- Facilita a manutenção e expansão da navegação da aplicação
+
+---
+
+### Integração com a aplicação
+O roteamento é inicializado no arquivo `App.tsx` através do componente:
+
+```ts
+<RouterProvider router={router} />
+
+
+
+## 🧩 Componentes Globais
+
+### Componente `ScrollToTop`
+Componente responsável por **resetar o scroll da página ao trocar de rota**.
+
+#### Funcionamento
+- Observa a mudança do `pathname` através do `useLocation`
+- Executa `window.scrollTo(0, 0)` sempre que a rota muda
+- Ele força a página a rolar para o topo quando há mudança de rota.
+
+#### Local de uso
+- Importado e utilizado no componente `Layout`
+- Afeta todas as páginas que utilizam esse layout
+
+#### Objetivo
+- Melhorar a experiência do usuário em navegação SPA
+- Evitar que novas páginas carreguem com scroll anterior
+
+------------------------------------------------------------------------------------
+### Componente `Layout`
+Componente responsável por **definir o layout global da aplicação**, envolvendo todas as páginas que compartilham estrutura visual comum.
+
+### Funcionamento
+- Renderiza elementos fixos da aplicação (Header e Footer)
+- Utiliza o componente `<Outlet />` do React Router para renderizar o conteúdo dinâmico das páginas
+- Permite centralizar comportamentos globais (ex: `ScrollToTop`)
+
+### Local de Uso
+- Importado e utilizado na configuração de rotas (`AppRoutes.tsx`)
+- Atua como rota pai para páginas que utilizam layout compartilhado
+
+#### Objetivo
+- Evitar duplicação de código (Header/Footer em cada página)
+- Garantir consistência visual entre páginas
+- Facilitar manutenção e evolução do layout
+
+----------------------------------------------------------------------------------
+
