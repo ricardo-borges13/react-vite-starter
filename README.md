@@ -289,3 +289,83 @@ O ESLint está configurado para:
 - detectar erros
 - aplicar boas práticas
 - manter consistência no código
+
+---------------------------------------------------------
+## ⚡ Otimização do Build (Vite)
+
+Para melhorar a performance da aplicação em produção, foi configurado o **code splitting manual** no Vite.
+
+### 📄 Arquivo `vite.config.ts`
+
+```ts
+build: {
+  rollupOptions: {
+    output: {
+      manualChunks: {
+        react: ["react", "react-dom"],
+        router: ["react-router-dom"],
+        styled: ["styled-components"]
+      }
+    }
+  }
+}
+```
+### 🚀 O que isso faz
+
+O Vite passa a gerar arquivos separados:
+
+react.js
+router.js
+styled.js
+index.js
+
+### ✅ Benefícios
+- Carregamento inicial mais rápido
+- Melhor aproveitamento de cache do navegador
+- Melhor pontuação no Lighthouse
+- Melhor desempenho geral (SEO)
+----------------------------------------------------------------
+### 🔧 Configuração de Alias
+
+Para evitar caminhos longos e melhorar a organização dos imports, foi configurado um ``alias (@) apontando`` para a pasta ``src``.
+
+## 📄 Arquivo vite.config.ts
+
+```tsx
+import path from "path";
+
+resolve: {
+  alias: {
+    "@": path.resolve(__dirname, "./src")
+  }
+}
+```
+## 📄 Arquivo tsconfig.app.json
+```tsx
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
+📌 Antes (forma tradicional)
+
+```tsx
+import Button from "../../../components/Button";
+```
+📌 Depois (com alias)
+
+```tsx
+import Button from "@/components/Button";
+import Header from "@/components/Header";
+import Home from "@/pages/Home";
+import routes from "@/routes";
+```
+## ✅ Benefícios
+- Imports mais curtos e legíveis
+- Melhor organização do código
+- Evita erros com caminhos relativos
+- Facilita manutenção em projetos grandes

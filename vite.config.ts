@@ -7,7 +7,8 @@ export default defineConfig({
   plugins: [
     react(),
     checker({
-      typescript: true
+      typescript: true,
+      overlay: true
     })
   ],
 
