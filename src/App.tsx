@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 
 function App() {
   return (
-   <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Suspense fallback={<div>Carregando...</div>}>
         <RouterProvider router={router} />
